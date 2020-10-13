@@ -1,0 +1,36 @@
+-- Pyrate89, LT Group, Infinity Corporation
+local timePassed = 0 -- for percentage and degrees
+local timeLeft = 900 -- 15 minutes on start for countdown
+local status = "scanning"
+
+function addZero(n) -- add zero whenever minutes/seconds are single digit
+    if n < 10 then
+    	n = "0"..n
+    end
+    return n
+end
+
+function getScanTimerData(n)
+    local minutes = math.floor(timeLeft % (60 * 60) / 60)
+    local seconds = math.floor(timeLeft % 60)
+    local percentage = math.floor(timePassed * 100 / 900)
+    local degrees = 350 - math.floor(timePassed * 350 / 900)
+    
+    minutes = addZero(minutes)
+    seconds = addZero(seconds)
+
+    timePassed = timePassed + 1
+    timeLeft = timeLeft - 1
+    
+    if timeLeft < 0 then
+        minutes = "00";
+        seconds = "00";
+        percentage = "100";
+        degrees = 350;
+        status = "scanned"
+    end
+
+    return minutes, seconds, percentage, degrees, status
+end
+
+unit.setTimer("timer", 1)
