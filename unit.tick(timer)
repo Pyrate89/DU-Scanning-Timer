@@ -1,0 +1,85 @@
+-- Pyrate89, LT Group, Infinity Corporation
+local minutes, seconds, percentage, degrees, status = getScanTimerData()
+
+local css = [[
+<style>
+@keyframes pulse {
+	from {
+		opacity:1;
+	}
+
+	to {
+		opacity:0;
+	}
+}
+.main {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	width: 100vw;
+	background-color: #2A2C2B;
+	color: #DC3522;
+	font-size:12vh
+}
+.time, .percentage, .status {
+	width: 100vw;
+	text-align: center;
+	height: 15vh;
+	position: absolute;
+}
+.time {
+	top: 35vh;
+}
+.percentage {
+	top: 50vh;
+}
+.status {
+	font-size: 10vh;
+	bottom: 5vh;
+}
+.status.scanning {
+	animation-name: pulse;
+	animation-duration: 1000ms;
+	animation-iteration-count: infinite;
+	animation-timing-function: ease-in-out;
+}
+svg.gauge {
+	width: 120vh;
+	padding-top: 10vh;
+}
+svg.gauge path {
+	will-change: auto;
+	stroke-width: 3vh;
+	stroke-miterlimit: round;
+	transition: stroke-dashoffset 500ms ease-in-out;
+}
+.logo, .logo svg {
+    width: 15vh;
+    height: 15vh;
+}
+.logo {
+    position:absolute;
+    top: 8vh;
+    left: 10vh;
+}
+</style>
+]]
+
+local html = [[
+<div class="main">
+	<div class="logo">
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 515.17 390.77"><defs/><defs><style>.cls-1{fill:#fff}</style></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path d="M0 0v390.77h419.38V136.61h95.79V0zm269 353.93H36.84V36.84H114V284h155zm0-106.81H150.84V136.61H269zM478.33 99.77h-95.79v254.16h-76.67V99.77h-155V36.84h327.46z"/><path d="M478.33 36.84v62.93h-95.79v254.16h-76.67V99.77H150.84V36.84h327.49z" class="cls-1"/><path d="M269.03 283.96v69.97H36.84V36.84H114v247.12h155.03z" class="cls-1"/><path fill="#0c623b" d="M150.84 173.45h118.19v36.83H150.84z"/><path fill="#d12527" d="M150.84 210.28h118.19v36.84H150.84z"/><path fill="#eab90e" d="M150.84 136.61h118.19v36.84H150.84z"/></g></g></svg>
+	</div>
+	<div class="time">]]..minutes..[[:]]..seconds..[[</div>
+	<div class="percentage">]]..percentage..[[%</div>
+	<svg class="gauge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+		<path stroke="#1E1E20" d="M41 149.5a77 77 0 1 1 117.93 0"  fill="none"/>
+		<path stroke="#DC3522" d="M41 149.5a77 77 0 1 1 117.93 0" fill="none" stroke-dasharray="350" stroke-dashoffset="]]..degrees..[["/>
+	</svg>
+	<div class="status ]]..status..[[">]]..status:gsub("^%l", string.upper)..[[</div>
+</div>
+]]
+
+lcd.setHTML(css..html)
