@@ -26,7 +26,7 @@ function getScanTimerData(n)
         minutes = "00";
         seconds = "00";
         percentage = "100";
-        degrees = 350;
+        degrees = 0;
         status = "scanned"
     end
 
